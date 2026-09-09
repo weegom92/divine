@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VENUS GROUP - 사내 인트라넷 인사 시스템</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0f0f12;
+            color: #d1d5db;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 10px 80px 10px;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: #18181c;
+            border-radius: 14px;
+            border: 1px solid #2d2d35;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 헤더 스타일 */
+        .header {
+            background-color: #212127;
+            padding: 16px 20px;
+            border-bottom: 1px solid #2d2d35;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title { font-size: 0.85rem; font-weight: 700; color: #f59e0b; letter-spacing: 1px; }
+        .security-badge { font-size: 0.7rem; background-color: #374151; color: #9ca3af; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+        .security-badge.clearance { background-color: #7f1d1d; color: #fca5a5; }
+
+        /* 콘텐츠 영역 */
+        .content { padding: 20px; flex: 1; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* 메인 프로필 상단 */
+        .profile-card {
+            background-color: #212127;
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #2d2d35;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .profile-avatar {
+            width: 85px;
+            height: 110px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #374151;
+            background-color: #111;
+        }
+        .profile-brief h2 { font-size: 1.3rem; color: #fff; margin-bottom: 4px; }
+        .profile-brief .sub { font-size: 0.85rem; color: #f59e0b; margin-bottom: 8px; font-weight: 600; }
+        .profile-brief .meta { font-size: 0.8rem; color: #9ca3af; line-height: 1.4; }
+
+        /* 리스트 및 테이블 */
+        .info-group { margin-bottom: 18px; }
+        .info-title { font-size: 0.85rem; color: #f59e0b; font-weight: 700; margin-bottom: 8px; border-bottom: 1px solid #2d2d35; padding-bottom: 4px; }
+        .info-item { display: flex; font-size: 0.88rem; margin-bottom: 6px; line-height: 1.5; }
+        .info-label { width: 90px; color: #9ca3af; flex-shrink: 0; font-weight: 600; }
+        .info-val { color: #e5e7eb; flex: 1; }
+        .tag { display: inline-block; background-color: #2a2a32; color: #e5e7eb; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-right: 4px; }
+
+        /* 비너스 조직도 전용 스타일 */
+        .dept-card {
+            background-color: #212127;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-left: 3px solid #6b7280;
+        }
+        .dept-card.core { border-left-color: #f59e0b; }
+        .dept-card.secret { border-left-color: #ef4444; }
+        .dept-name { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .dept-floor { font-size: 0.75rem; color: #f59e0b; font-weight: 600; float: right; }
+        .dept-desc { font-size: 0.82rem; color: #9ca3af; line-height: 1.4; margin-top: 6px; }
+
+        /* 앨범 갤러리 */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .gallery-item {
+            background-color: #212127;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #2d2d35;
+        }
+        .gallery-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .gallery-cap { padding: 8px; font-size: 0.75rem; color: #9ca3af; text-align: center; }
+
+        /* 하단 고정 탭 바 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background-color: #18181c;
+            border-top: 1px solid #2d2d35;
+            display: flex;
+            z-index: 100;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 0;
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+        .tab-btn.active { color: #f59e0b; }
+        .tab-btn.secret-tab.active { color: #ef4444; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 시스템 헤더 -->
+    <div class="header">
+        <span class="header-title">🏛️ VENUS INTRANET</span>
+        <span id="badge" class="security-badge">INSPECTION CLEARANCE</span>
+    </div>
+
+    <div class="content">
+        <!-- 1. 프로필 탭 -->
+        <div id="tab-profile" class="tab-content active">
+            <div class="profile-card">
+                <img src="yoon1.png" alt="윤태섭 메인 사진" class="profile-avatar" onerror="this.src='https://via.placeholder.com/85x110/222/888?text=NO+IMAGE'">
+                <div class="profile-brief">
+                    <h2>윤태섭 <span style="font-size:0.85rem; color:#9ca3af;">(33)</span></h2>
+                    <div class="sub">기술개발총괄본부 이사</div>
+                    <div class="meta">
+                        대한민국 / 190cm<br>
+                        핵심 기술 개발 총괄 책임자
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-title">인사 기본 데이터</div>
+                <div class="info-item"><div class="info-label">소속 부서</div><div class="info-val">기술개발총괄본부 (10F 기술총괄실)</div></div>
+                <div class="info-item"><div class="info-label">신체 스펙</div><div class="info-val">190cm / 거대하고 단단한 근육질 피지컬</div></div>
+                <div class="info-item"><div class="info-label">외형 특징</div><div class="info-val">날카로운 턱선, 서늘한 호박색 눈동자, 어두운 피부 톤, 짧은 검은 머리</div></div>
+                <div class="info-item"><div class="info-label">고유 체향</div><div class="info-val">차가운 시더우드, 서늘한 메탈릭 노트, 은은한 앰버(Amber)향</div></div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-title">신성인자 정보</div>
+                <div class="info-item"><div class="info-label">보유 인자</div><div class="info-val"><span class="tag">헤파이스토스</span> 최상위 기술 통찰·사물 제어형</div></div>
+                <div class="info-item"><div class="info-label">인자 능력</div><div class="info-val">모든 기술 체계와 물질의 구조를 정밀하게 직관하고 다룸</div></div>
+                <div class="info-item"><div class="info-label">과부하 증상</div><div class="info-val">내면의 열기 상승 및 메탈릭 체향 극대화 (상성 인자 보유자와 비즈니스적 접촉으로 관리)</div></div>
+            </div>
+        </div>
+
+        <!-- 2. 극비사항 탭 -->
+        <div id="tab-secret" class="tab-content">
+            <div class="info-group">
+                <div class="info-title" style="color:#ef4444;">SECURITY CLEARANCE LEVEL 5 - RESTRICTED</div>
+                <div class="info-item"><div class="info-label">혼인 관계</div><div class="info-val">지수안 대표와 정략결혼 5년 차 (사랑 없는 관계, 혐관)</div></div>
+                <div class="info-item"><div class="info-label">관계 스펙</div><div class="info-val">연애 경험 0회 / 관계 경험 있음 / 신화적 굴레로 진실된 사랑을 열망함</div></div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-title" style="color:#ef4444;">NSFW & 성향 프로파일</div>
+                <div class="info-item"><div class="info-label">포지션</div><div class="info-val">Absolute Physical Top / 보호·구속형 톱</div></div>
+                <div class="info-item"><div class="info-label">행동 패턴</div><div class="info-val">거대한 피지컬로 상대를 밀착 구속하며 주도권을 쥠. 가학적 폭력 일절 금지. 애정 표현이 서툴러 무겁게 품에 안고 짓누르는 방식 사용.</div></div>
+                <div class="info-item"><div class="info-label">금기 사항</div><div class="info-val">불륜 및 가학적/수치심 부여 플레이 절대 거부. 상대를 다치지 않게 보호하는 절제된 구속 유지.</div></div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-title" style="color:#ef4444;">관찰된 갭모에 (Gap Moe)</div>
+                <div class="info-item"><div class="info-label">손잡기 집착</div><div class="info-val">틈만 나면 커다란 손으로 상대의 손을 슬그머니 감싸 쥠.</div></div>
+                <div class="info-item"><div class="info-label">신체 반응</div><div class="info-val">애정 표현을 받으면 덩치가 무색하게 귀끝과 목덜미부터 붉어지며 시선을 피함.</div></div>
+                <div class="info-item"><div class="info-label">악력 고장</div><div class="info-val">센 악력으로 상대를 다치게 할까 봐 스킨십 시 손끝 힘을 빼느라 고장 난 듯 굳어버림.</div></div>
+                <div class="info-item"><div class="info-label">기타 취향</div><div class="info-val">부끄러우면 무뚝뚝하게 단답 후 딴청을 피움. 작고 귀여운 것을 좋아함.</div></div>
+            </div>
+        </div>
+
+        <!-- 3. 회사소개 탭 -->
+        <div id="tab-company" class="tab-content">
+            <div class="info-title">비너스(VENUS) 그룹 조직도</div>
+
+            <div class="dept-card secret">
+                <span class="dept-floor">28F ~ 30F</span>
+                <div class="dept-name">CEO 직속 전속 인자케어팀</div>
+                <div class="dept-desc">지수안 대표의 개인 비서진 및 전속 섭(Sub) 소속 사조직. 대표실 밀실 관리, 인자 과부하 케어 및 은밀한 훈육 수행. 최상층 팬트하우스 위치, 외부 출입 엄격 통제.</div>
+            </div>
+
+            <div class="dept-card">
+                <span class="dept-floor">27F</span>
+                <div class="dept-name">대표실 & C-Suite 전용 접견실</div>
+                <div class="dept-desc">지수안 대표의 메인 집무실 및 고위층 전용 접견 공간.</div>
+            </div>
+
+            <div class="dept-card">
+                <span class="dept-floor">20F ~ 26F</span>
+                <div class="dept-name">뷰티·패션 사업부 (대표: 지수안)</div>
+                <div class="dept-desc">그룹의 모체이자 주력 사업부. 코스메틱 및 하이엔드 의류 담당. 아프로디테 인자의 화려한 페로몬이 진하게 감도는 부서.</div>
+            </div>
+
+            <div class="dept-card">
+                <span class="dept-floor">11F ~ 19F</span>
+                <div class="dept-name">에이전시·트렌드 사업부</div>
+                <div class="dept-desc">아도니스, 에로스 등 화려한 하급/기능형 인자 소속 에이전시. 지수안 대표 전속 발탁을 위한 모델 간 치열한 경쟁 구도.</div>
+            </div>
+
+            <div class="dept-card core">
+                <span class="dept-floor">03F ~ 10F</span>
+                <div class="dept-name">기술개발총괄본부 (이사: 윤태섭)</div>
+                <div class="dept-desc">독점 기술 및 특수 소재 개발 조직. 차갑고 이성적인 정적 분위기. 윤태섭 이사의 메인 집무실 위치(10F).</div>
+            </div>
+        </div>
+
+        <!-- 4. 앨범 탭 -->
+        <div id="tab-album" class="tab-content">
+            <div class="info-title">윤태섭 이사 아카이브</div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="yoon1.png" alt="기술총괄실 집무" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=yoon1.png'">
+                    <div class="gallery-cap">01. 기술총괄실 집무</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="yoon2.png" alt="인자 과부하 측정" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=yoon2.png'">
+                    <div class="gallery-cap">02. 인자 과부하 기록</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="yoon3.png" alt="외부 현장 점검" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=yoon3.png'">
+                    <div class="gallery-cap">03. 연구소 현장 점검</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 고정 탭 바 -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-profile', false)">
+            <span>👤</span> 프로필
+        </button>
+        <button class="tab-btn secret-tab" onclick="switchTab(event, 'tab-secret', true)">
+            <span>🔒</span> 극비사항
+        </button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-company', false)">
+            <span>🏢</span> 회사소개
+        </button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-album', false)">
+            <span>🖼️</span> 앨범
+        </button>
+    </div>
+</div>
+
+<script>
+    function switchTab(evt, tabId, isSecret) {
+        // 모든 탭 내용 숨기기
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        // 모든 버튼 비활성화
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+        // 선택된 탭 및 버튼 활성화
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+
+        // 상단 보안 배지 색상 변경
+        const badge = document.getElementById('badge');
+        if (isSecret) {
+            badge.innerText = 'TOP SECRET CLEARANCE';
+            badge.classList.add('clearance');
+        } else {
+            badge.innerText = 'INSPECTION CLEARANCE';
+            badge.classList.remove('clearance');
+        }
+    }
+</script>
+
+</body>
+</html>
