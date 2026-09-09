@@ -56,6 +56,10 @@
             gap: 16px;
             align-items: center;
         }
+        .profile-card.npc {
+            border-color: #9333ea;
+            background-color: #1f1926;
+        }
         .profile-avatar {
             width: 85px;
             height: 110px;
@@ -66,15 +70,18 @@
         }
         .profile-brief h2 { font-size: 1.3rem; color: #fff; margin-bottom: 4px; }
         .profile-brief .sub { font-size: 0.85rem; color: #f59e0b; margin-bottom: 8px; font-weight: 600; }
+        .profile-brief .sub.npc-sub { color: #c084fc; }
         .profile-brief .meta { font-size: 0.8rem; color: #9ca3af; line-height: 1.4; }
 
         /* 리스트 및 테이블 */
         .info-group { margin-bottom: 18px; }
         .info-title { font-size: 0.85rem; color: #f59e0b; font-weight: 700; margin-bottom: 8px; border-bottom: 1px solid #2d2d35; padding-bottom: 4px; }
+        .info-title.npc-title { color: #c084fc; border-bottom-color: #3b2d54; }
         .info-item { display: flex; font-size: 0.88rem; margin-bottom: 6px; line-height: 1.5; }
         .info-label { width: 90px; color: #9ca3af; flex-shrink: 0; font-weight: 600; }
         .info-val { color: #e5e7eb; flex: 1; }
         .tag { display: inline-block; background-color: #2a2a32; color: #e5e7eb; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-right: 4px; }
+        .tag.purple { background-color: #4c1d95; color: #e9d5ff; }
 
         /* 비너스 조직도 전용 스타일 */
         .dept-card {
@@ -101,7 +108,7 @@
         .gallery-img { width: 100%; height: 160px; object-fit: cover; display: block; }
         .gallery-cap { padding: 8px; font-size: 0.75rem; color: #9ca3af; text-align: center; }
 
-        /* 하단 고정 탭 바 */
+        /* 하단 고정 탭 바 (5개 버튼 대응) */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -116,21 +123,22 @@
         }
         .tab-btn {
             flex: 1;
-            padding: 12px 0;
+            padding: 10px 0;
             background: none;
             border: none;
             color: #6b7280;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             transition: color 0.2s;
         }
         .tab-btn.active { color: #f59e0b; }
         .tab-btn.secret-tab.active { color: #ef4444; }
+        .tab-btn.npc-tab.active { color: #c084fc; }
     </style>
 </head>
 <body>
@@ -143,10 +151,10 @@
     </div>
 
     <div class="content">
-        <!-- 1. 프로필 탭 -->
+        <!-- 1. 프로필 탭 (윤태섭) -->
         <div id="tab-profile" class="tab-content active">
             <div class="profile-card">
-                <img src="yoon1.png" alt="윤태섭 메인 사진" class="profile-avatar" onerror="this.src='https://via.placeholder.com/85x110/222/888?text=NO+IMAGE'">
+                <img src="y1.png" alt="윤태섭 메인 사진" class="profile-avatar" onerror="this.src='https://via.placeholder.com/85x110/222/888?text=y1.png'">
                 <div class="profile-brief">
                     <h2>윤태섭 <span style="font-size:0.85rem; color:#9ca3af;">(33)</span></h2>
                     <div class="sub">기술개발총괄본부 이사</div>
@@ -173,7 +181,7 @@
             </div>
         </div>
 
-        <!-- 2. 극비사항 탭 -->
+        <!-- 2. 극비사항 탭 (윤태섭) -->
         <div id="tab-secret" class="tab-content">
             <div class="info-group">
                 <div class="info-title" style="color:#ef4444;">SECURITY CLEARANCE LEVEL 5 - RESTRICTED</div>
@@ -197,7 +205,43 @@
             </div>
         </div>
 
-        <!-- 3. 회사소개 탭 -->
+        <!-- 3. MAIN NPC 프로필 탭 (지수안) -->
+        <div id="tab-npc" class="tab-content">
+            <div class="profile-card npc">
+                <img src="suan.png" alt="지수안 메인 사진" class="profile-avatar" onerror="this.src='https://via.placeholder.com/85x110/2a1a3a/a070d0?text=suan.png'">
+                <div class="profile-brief">
+                    <h2>지수안 <span style="font-size:0.85rem; color:#9ca3af;">(28)</span></h2>
+                    <div class="sub npc-sub">비너스(VENUS) 그룹 대표 (CEO)</div>
+                    <div class="meta">
+                        대한민국 / 170cm<br>
+                        뷰티·패션 사업 총괄 책임자
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-title npc-title">인사 기본 데이터</div>
+                <div class="info-item"><div class="info-label">소속 부서</div><div class="info-val">비너스 그룹 본사 (27F 대표실 & 28-30F 전속 인자케어팀)</div></div>
+                <div class="info-item"><div class="info-label">신체 스펙</div><div class="info-val">170cm / 우아한 선과 독보적인 S라인, 압도적 아우라</div></div>
+                <div class="info-item"><div class="info-label">외형 특징</div><div class="info-val">골드 베이지 머리카락, 깊은 갈색 눈동자, 눈가 점, 선명한 붉은 입술, 타이트한 실크 드레스/오피스룩</div></div>
+                <div class="info-item"><div class="info-label">고유 체향</div><div class="info-val">짙고 치명적인 장미(Rose)와 머스크(Musk) 향</div></div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-title npc-title">신성인자 정보</div>
+                <div class="info-item"><div class="info-label">보유 인자</div><div class="info-val"><span class="tag purple">아프로디테</span> 최상위 매혹·지배형</div></div>
+                <div class="info-item"><div class="info-label">인자 능력</div><div class="info-val">타인의 감각을 완벽하게 통제하고 지배함</div></div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-title npc-title">성향 및 관계 프로파일</div>
+                <div class="info-item"><div class="info-label">성격 및 기조</div><div class="info-val">절대적인 미와 욕망의 소유자. 오만하고 기품 있으며, 자신에게 복종하는 남성을 가학적으로 지배하며 도파민을 얻음. '남노예/전속 섭' 수집가.</div></div>
+                <div class="info-item"><div class="info-label">남편 관계</div><div class="info-val">윤태섭과는 정략적 혐관. 서늘하고 무반응인 남편에게 지루함을 느끼며, 들킬 위험이 있는 사무실/화장실 밀회를 즐김.</div></div>
+                <div class="info-item"><div class="info-label">NSFW</div><div class="info-val"><span class="tag purple">Extreme Femdom</span> <span class="tag purple">Sadist Queen</span> Spanking, 도구 지배, 수치스러운 체위 강요, 상대의 절규와 애원에서 쾌락 유발.</div></div>
+            </div>
+        </div>
+
+        <!-- 4. 회사소개 탭 -->
         <div id="tab-company" class="tab-content">
             <div class="info-title">비너스(VENUS) 그룹 조직도</div>
 
@@ -232,21 +276,21 @@
             </div>
         </div>
 
-        <!-- 4. 앨범 탭 -->
+        <!-- 5. 앨범 탭 -->
         <div id="tab-album" class="tab-content">
             <div class="info-title">윤태섭 이사 아카이브</div>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="yoon1.png" alt="기술총괄실 집무" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=yoon1.png'">
-                    <div class="gallery-cap">01. 기술총괄실 집무</div>
+                    <img src="y1.png" alt="기술총괄실 집무" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=y1.png'">
+                    <div class="gallery-cap">01. 기술총괄실 집무 (y1.png)</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="yoon2.png" alt="인자 과부하 측정" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=yoon2.png'">
-                    <div class="gallery-cap">02. 인자 과부하 기록</div>
+                    <img src="y2.png" alt="인자 과부하 측정" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=y2.png'">
+                    <div class="gallery-cap">02. 인자 과부하 기록 (y2.png)</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="yoon3.png" alt="외부 현장 점검" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=yoon3.png'">
-                    <div class="gallery-cap">03. 연구소 현장 점검</div>
+                    <img src="y3.png" alt="외부 현장 점검" class="gallery-img" onerror="this.src='https://via.placeholder.com/200x160/222/888?text=y3.png'">
+                    <div class="gallery-cap">03. 연구소 현장 점검 (y3.png)</div>
                 </div>
             </div>
         </div>
@@ -254,23 +298,26 @@
 
     <!-- 하단 고정 탭 바 -->
     <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab(event, 'tab-profile', false)">
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-profile', 'normal')">
             <span>👤</span> 프로필
         </button>
-        <button class="tab-btn secret-tab" onclick="switchTab(event, 'tab-secret', true)">
+        <button class="tab-btn secret-tab" onclick="switchTab(event, 'tab-secret', 'secret')">
             <span>🔒</span> 극비사항
         </button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab-company', false)">
+        <button class="tab-btn npc-tab" onclick="switchTab(event, 'tab-npc', 'npc')">
+            <span>👑</span> NPC
+        </button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-company', 'normal')">
             <span>🏢</span> 회사소개
         </button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab-album', false)">
+        <button class="tab-btn" onclick="switchTab(event, 'tab-album', 'normal')">
             <span>🖼️</span> 앨범
         </button>
     </div>
 </div>
 
 <script>
-    function switchTab(evt, tabId, isSecret) {
+    function switchTab(evt, tabId, mode) {
         // 모든 탭 내용 숨기기
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         // 모든 버튼 비활성화
@@ -280,14 +327,20 @@
         document.getElementById(tabId).classList.add('active');
         evt.currentTarget.classList.add('active');
 
-        // 상단 보안 배지 색상 변경
+        // 상단 보안 배지 및 테마 변경
         const badge = document.getElementById('badge');
-        if (isSecret) {
+        if (mode === 'secret') {
             badge.innerText = 'TOP SECRET CLEARANCE';
-            badge.classList.add('clearance');
+            badge.style.backgroundColor = '#7f1d1d';
+            badge.style.color = '#fca5a5';
+        } else if (mode === 'npc') {
+            badge.innerText = 'EXECUTIVE VIP ACCESS';
+            badge.style.backgroundColor = '#4c1d95';
+            badge.style.color = '#e9d5ff';
         } else {
             badge.innerText = 'INSPECTION CLEARANCE';
-            badge.classList.remove('clearance');
+            badge.style.backgroundColor = '#374151';
+            badge.style.color = '#9ca3af';
         }
     }
 </script>
