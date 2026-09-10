@@ -25,7 +25,6 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            position: relative;
         }
         
         /* 헤더 스타일 */
@@ -118,106 +117,6 @@
         .tab-btn.secret-tab.active { color: #ef4444; }
         .tab-btn.npc-tab.active { color: #c084fc; }
         .tab-btn.diag-tab.active { color: #10b981; }
-
-        /* -------------------------------------------------- */
-        /* 모달 및 버튼 스타일 (신규 추가) */
-        /* -------------------------------------------------- */
-        .btn-primary {
-            width: 100%;
-            padding: 10px;
-            background-color: #2563eb;
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
-        }
-        .btn-primary:hover { background-color: #1d4ed8; }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-window {
-            width: 90%;
-            max-width: 400px;
-            background-color: #212127;
-            border: 1px solid #3d3d48;
-            border-radius: 12px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            transform: scale(0.9);
-            transition: transform 0.25s ease;
-            overflow: hidden;
-        }
-        .modal-overlay.active .modal-window {
-            transform: scale(1);
-        }
-        .modal-header {
-            padding: 14px 18px;
-            background-color: #2a2a32;
-            border-bottom: 1px solid #374151;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #f59e0b;
-        }
-        .modal-close-btn {
-            background: none;
-            border: none;
-            color: #9ca3af;
-            font-size: 1.2rem;
-            cursor: pointer;
-            line-height: 1;
-        }
-        .modal-close-btn:hover { color: #fff; }
-        .modal-body {
-            padding: 18px;
-            font-size: 0.85rem;
-            color: #d1d5db;
-            line-height: 1.5;
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-        .modal-footer {
-            padding: 12px 18px;
-            background-color: #1a1a20;
-            border-top: 1px solid #2d2d35;
-            text-align: right;
-        }
-        .btn-secondary {
-            padding: 6px 14px;
-            background-color: #374151;
-            color: #e5e7eb;
-            border: none;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .btn-secondary:hover { background-color: #4b5563; }
     </style>
 </head>
 <body>
@@ -248,11 +147,6 @@
                 <div class="info-title">신성인자 정보</div>
                 <div class="info-item"><div class="info-label">보유 인자</div><div class="info-val"><span class="tag">헤파이스토스</span> 최상위 기술 통찰·사물 제어형</div></div>
             </div>
-
-            <!-- 모달 호출 버튼 예시 -->
-            <button class="btn-primary" onclick="openModal('상세 권한 확인', '윤태섭 이사의 보안 승인 등급은 LEVEL 5(최고 관리자)입니다.<br>인가되지 않은 자의 개인정보 및 신성인자 접근을 엄금합니다.')">
-                📋 상세 권한 지침 확인
-            </button>
         </div>
 
         <!-- 2. 극비사항 탭 -->
@@ -291,14 +185,11 @@
         <!-- 6. 인자 진단 시스템 탭 (신규 연동) -->
         <div id="tab-diagnosis" class="tab-content">
             <div class="info-title" style="color: #10b981; border-bottom-color: #065f46;">신성인자 진단 & 과부하 측정</div>
+            <!-- 진단 시스템 코드 또는 iframe을 여기에 넣으시면 됩니다 -->
             <div style="background-color: #212127; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #2d2d35;">
                 <p style="margin-bottom: 15px; color: #a7f3d0;">사내 인자 케어센터 진단 시스템이 연결되었습니다.</p>
-                <iframe src="diagnosis.html" style="width: 100%; height: 350px; border: none; border-radius: 6px;"></iframe>
-                
-                <!-- 모달 호출 버튼 예시 -->
-                <button class="btn-primary" style="background-color: #059669;" onclick="openModal('진단 주의사항', '신성인자 임계치 초과 시 즉시 업무를 중단하고 10층 총괄실 또는 케어센터로 연락하십시오.')">
-                    ⚠️ 진단 수칙 읽기
-                </button>
+                <!-- 진단 페이지 연결 예시 -->
+                <iframe src="diagnosis.html" style="width: 100%; height: 450px; border: none; border-radius: 6px;"></iframe>
             </div>
         </div>
     </div>
@@ -326,26 +217,7 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- 공통 모달 구조 (신규 추가) -->
-<!-- ========================================== -->
-<div id="customModal" class="modal-overlay">
-    <div class="modal-window">
-        <div class="modal-header">
-            <span id="modalTitle" class="modal-title">알림</span>
-            <button class="modal-close-btn" onclick="closeModal()">&times;</button>
-        </div>
-        <div id="modalBody" class="modal-body">
-            내용이 들어갑니다.
-        </div>
-        <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeModal()">확인</button>
-        </div>
-    </div>
-</div>
-
 <script>
-    /* 탭 전환 함수 */
     function switchTab(evt, tabId, mode) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -372,26 +244,6 @@
             badge.style.color = '#9ca3af';
         }
     }
-
-    /* ========================================== */
-    /* 모달 제어 함수 (신규 추가) */
-    /* ========================================== */
-    function openModal(title, content) {
-        document.getElementById('modalTitle').innerText = title;
-        document.getElementById('modalBody').innerHTML = content;
-        document.getElementById('customModal').classList.add('active');
-    }
-
-    function closeModal() {
-        document.getElementById('customModal').classList.remove('active');
-    }
-
-    // 모달 배경 클릭 시 닫기
-    document.getElementById('customModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeModal();
-        }
-    });
 </script>
 
 </body>
