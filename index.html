@@ -3,61 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>윤태섭 프로필 & 비너스 그룹 신성인자 진단 시스템</title>
+    <title>VENUS GROUP - 사내 인트라넷 인사 시스템</title>
     <style>
-        /* 기본 페이지 스타일 (윤태섭 사이트 예시) */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 40px 20px;
+            background-color: #0f0f12;
+            color: #d1d5db;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 10px 80px 10px;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: #18181c;
+            border-radius: 14px;
+            border: 1px solid #2d2d35;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* 헤더 스타일 */
+        .header {
+            background-color: #212127;
+            padding: 16px 20px;
+            border-bottom: 1px solid #2d2d35;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title { font-size: 0.85rem; font-weight: 700; color: #f59e0b; letter-spacing: 1px; }
+        .security-badge { font-size: 0.7rem; background-color: #374151; color: #9ca3af; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+
+        /* 콘텐츠 영역 */
+        .content { padding: 20px; flex: 1; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* 메인 프로필 상단 */
+        .profile-card {
+            background-color: #212127;
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #2d2d35;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .profile-card.npc { border-color: #9333ea; background-color: #1f1926; }
+        .profile-avatar { width: 85px; height: 110px; border-radius: 6px; object-fit: cover; border: 1px solid #374151; background-color: #111; }
+        .profile-brief h2 { font-size: 1.3rem; color: #fff; margin-bottom: 4px; }
+        .profile-brief .sub { font-size: 0.85rem; color: #f59e0b; margin-bottom: 8px; font-weight: 600; }
+        .profile-brief .sub.npc-sub { color: #c084fc; }
+        .profile-brief .meta { font-size: 0.8rem; color: #9ca3af; line-height: 1.4; }
+
+        /* 리스트 및 테이블 */
+        .info-group { margin-bottom: 18px; }
+        .info-title { font-size: 0.85rem; color: #f59e0b; font-weight: 700; margin-bottom: 8px; border-bottom: 1px solid #2d2d35; padding-bottom: 4px; }
+        .info-title.npc-title { color: #c084fc; border-bottom-color: #3b2d54; }
+        .info-item { display: flex; font-size: 0.88rem; margin-bottom: 6px; line-height: 1.5; }
+        .info-label { width: 90px; color: #9ca3af; flex-shrink: 0; font-weight: 600; }
+        .info-val { color: #e5e7eb; flex: 1; }
+        .tag { display: inline-block; background-color: #2a2a32; color: #e5e7eb; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-right: 4px; }
+        .tag.purple { background-color: #4c1d95; color: #e9d5ff; }
+
+        /* 비너스 조직도 전용 스타일 */
+        .dept-card { background-color: #212127; border-radius: 8px; padding: 14px; margin-bottom: 12px; border-left: 3px solid #6b7280; }
+        .dept-card.core { border-left-color: #f59e0b; }
+        .dept-card.secret { border-left-color: #ef4444; }
+        .dept-name { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .dept-floor { font-size: 0.75rem; color: #f59e0b; font-weight: 600; float: right; }
+        .dept-desc { font-size: 0.82rem; color: #9ca3af; line-height: 1.4; margin-top: 6px; }
+
+        /* 앨범 갤러리 */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .gallery-item { background-color: #212127; border-radius: 8px; overflow: hidden; border: 1px solid #2d2d35; }
+        .gallery-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+
+        /* 하단 고정 탭 바 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background-color: #18181c;
+            border-top: 1px solid #2d2d35;
+            display: flex;
+            z-index: 100;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px 0;
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            gap: 3px;
+            transition: color 0.2s;
         }
+        .tab-btn.active { color: #f59e0b; }
+        .tab-btn.secret-tab.active { color: #ef4444; }
+        .tab-btn.npc-tab.active { color: #c084fc; }
+        .tab-btn.diag-tab.active { color: #10b981; }
 
-        .profile-card {
-            background-color: #1e1e1e;
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            max-width: 500px;
+        /* -------------------------------------------------- */
+        /* 모달 및 버튼 스타일 (신규 추가) */
+        /* -------------------------------------------------- */
+        .btn-primary {
             width: 100%;
-            text-align: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        .profile-card h1 {
-            margin-top: 0;
+            padding: 10px;
+            background-color: #2563eb;
             color: #ffffff;
-            font-size: 1.6rem;
-        }
-
-        /* 모달 열기 트리거 버튼 */
-        .btn-open-modal {
-            background-color: #f59e0b;
-            color: #121212;
             border: none;
-            padding: 14px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            margin-top: 15px;
+            transition: background 0.2s;
+            margin-top: 10px;
         }
+        .btn-primary:hover { background-color: #1d4ed8; }
 
-        .btn-open-modal:hover {
-            background-color: #d97706;
-            transform: translateY(-2px);
-        }
-
-        /* -------------------------------------------------- */
-        /* 모달 (Modal) 스타일 */
-        /* -------------------------------------------------- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -66,656 +145,253 @@
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(4px);
-            display: none; /* 기본적으로 숨김 */
+            display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            padding: 20px;
-            box-sizing: border-box;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
         }
-
         .modal-overlay.active {
-            display: flex; /* 활성화 시 표시 */
+            opacity: 1;
+            visibility: visible;
         }
-
-        .modal-container {
-            background-color: #1e1e1e;
-            padding: 30px;
+        .modal-window {
+            width: 90%;
+            max-width: 400px;
+            background-color: #212127;
+            border: 1px solid #3d3d48;
             border-radius: 12px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.7);
-            max-width: 480px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid #333;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalFadeIn 0.25s ease-out;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.25s ease;
+            overflow: hidden;
         }
-
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .modal-overlay.active .modal-window {
+            transform: scale(1);
         }
-
-        /* 모달 닫기 (X) 버튼 */
+        .modal-header {
+            padding: 14px 18px;
+            background-color: #2a2a32;
+            border-bottom: 1px solid #374151;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #f59e0b;
+        }
         .modal-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 18px;
             background: none;
             border: none;
             color: #9ca3af;
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.2rem;
             cursor: pointer;
-            padding: 4px;
             line-height: 1;
-            transition: color 0.2s;
         }
-
-        .modal-close-btn:hover {
-            color: #ffffff;
-        }
-
-        /* 진단 시스템 결과 박스 스타일 */
-        .modal-container h1 {
-            font-size: 1.3rem;
-            color: #d1d5db;
-            margin-top: 5px;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        .result-box {
-            background-color: #2a2a2a;
-            border-left: 4px solid #f59e0b;
-            padding: 20px;
-            border-radius: 6px;
-            text-align: left;
-            margin-bottom: 20px;
-            min-height: 160px;
-        }
-
-        .label {
-            font-size: 0.82rem;
-            color: #9ca3af;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .value {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-
-        .identity {
-            font-size: 0.8rem;
-            color: #c084fc;
-            font-weight: 600;
-            margin-bottom: 14px;
-        }
-
-        .tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            background-color: #374151;
-            color: #f59e0b;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 6px;
-            vertical-align: middle;
-        }
-
-        .desc {
-            font-size: 0.92rem;
+        .modal-close-btn:hover { color: #fff; }
+        .modal-body {
+            padding: 18px;
+            font-size: 0.85rem;
             color: #d1d5db;
             line-height: 1.5;
-            margin-bottom: 14px;
+            max-height: 60vh;
+            overflow-y: auto;
         }
-
-        /* 상성 영역 스타일 */
-        .affinity-section {
-            border-top: 1px dashed #444;
-            padding-top: 12px;
-            margin-top: 12px;
+        .modal-footer {
+            padding: 12px 18px;
+            background-color: #1a1a20;
+            border-top: 1px solid #2d2d35;
+            text-align: right;
         }
-
-        .affinity-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 6px;
-        }
-
-        .affinity-card {
-            background-color: #1a1a1a;
-            padding: 8px 10px;
-            border-radius: 6px;
-            border: 1px solid #333;
-        }
-
-        .affinity-card.good { border-color: #059669; }
-        .affinity-card.bad { border-color: #dc2626; }
-
-        .aff-title {
-            font-size: 0.72rem;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .good .aff-title { color: #34d399; }
-        .bad .aff-title { color: #f87171; }
-
-        .aff-target {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        .aff-desc {
-            font-size: 0.72rem;
-            color: #9ca3af;
-            margin-top: 2px;
-            line-height: 1.2;
-        }
-
-        /* 모달 하단 버튼 그룹 */
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-group button {
-            border: none;
-            padding: 12px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
-            flex: 1;
-        }
-
-        .btn-main {
-            background-color: #f59e0b;
-            color: #121212;
-        }
-
-        .btn-main:hover {
-            background-color: #d97706;
-        }
-
-        .btn-copy {
+        .btn-secondary {
+            padding: 6px 14px;
             background-color: #374151;
-            color: #e0e0e0;
-            border: 1px solid #4b5563;
+            color: #e5e7eb;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
         }
-
-        .btn-copy:hover {
-            background-color: #4b5563;
-        }
+        .btn-secondary:hover { background-color: #4b5563; }
     </style>
 </head>
 <body>
 
-<!-- 윤태섭 사이트 메인 영역 예시 -->
-<div class="profile-card">
-    <h1>윤태섭 프로필</h1>
-    <p style="color: #9ca3af; font-size: 0.95rem;">비너스 그룹 인자 진단 시스템 테스트 페이지입니다.</p>
-    
-    <!-- 모달 열기 버튼 -->
-    <button class="btn-open-modal" onclick="openModal()">🏛️ 신성인자 진단하기</button>
-</div>
+<div class="container">
+    <div class="header">
+        <span class="header-title">🏛️ VENUS INTRANET</span>
+        <span id="badge" class="security-badge">INSPECTION CLEARANCE</span>
+    </div>
 
-<!-- ==================== 모달 레이아웃 시작 ==================== -->
-<div class="modal-overlay" id="diagnosisModal" onclick="handleOverlayClick(event)">
-    <div class="modal-container">
-        <!-- 모달 닫기 버튼 -->
-        <button class="modal-close-btn" onclick="closeModal()">&times;</button>
-
-        <h1>🏛️ 비너스 그룹 인자 진단 시스템</h1>
-        
-        <div class="result-box">
-            <div class="label">신성인자</div>
-            <div class="value">
-                <span id="deity">버튼을 눌러 진단하세요</span>
-                <span id="group-tag" class="tag" style="display:none;"></span>
+    <div class="content">
+        <!-- 1. 프로필 탭 -->
+        <div id="tab-profile" class="tab-content active">
+            <div class="profile-card">
+                <img src="y1.png" alt="윤태섭 메인 사진" class="profile-avatar" onerror="this.src='https://via.placeholder.com/85x110/222/888?text=y1.png'">
+                <div class="profile-brief">
+                    <h2>윤태섭 <span style="font-size:0.85rem; color:#9ca3af;">(33)</span></h2>
+                    <div class="sub">기술개발총괄본부 이사</div>
+                    <div class="meta">대한민국 / 190cm<br>핵심 기술 개발 총괄 책임자</div>
+                </div>
             </div>
-            <div class="identity" id="identity">-</div>
-            
-            <div class="label">인자 능력</div>
-            <div class="value" id="ability" style="font-size: 0.95rem; font-weight: normal; color: #f3f4f6;">-</div>
-            
-            <div class="label" style="margin-top: 10px;">주요 특징</div>
-            <div class="desc" id="feature">-</div>
+            <div class="info-group">
+                <div class="info-title">인사 기본 데이터</div>
+                <div class="info-item"><div class="info-label">소속 부서</div><div class="info-val">기술개발총괄본부 (10F 기술총괄실)</div></div>
+                <div class="info-item"><div class="info-label">신체 스펙</div><div class="info-val">190cm / 거대하고 단단한 근육질 피지컬</div></div>
+            </div>
+            <div class="info-group">
+                <div class="info-title">신성인자 정보</div>
+                <div class="info-item"><div class="info-label">보유 인자</div><div class="info-val"><span class="tag">헤파이스토스</span> 최상위 기술 통찰·사물 제어형</div></div>
+            </div>
 
-            <div class="affinity-section" id="affinity-box" style="display:none;">
-                <div class="label">인자 상성 리포트</div>
-                <div class="affinity-grid">
-                    <div class="affinity-card good">
-                        <div class="aff-title">상성 우수 (Good)</div>
-                        <div class="aff-target" id="good-target">-</div>
-                        <div class="aff-desc" id="good-desc">-</div>
-                    </div>
-                    <div class="affinity-card bad">
-                        <div class="aff-title">상성 충돌 (Bad)</div>
-                        <div class="aff-target" id="bad-target">-</div>
-                        <div class="aff-desc" id="bad-desc">-</div>
-                    </div>
+            <!-- 모달 호출 버튼 예시 -->
+            <button class="btn-primary" onclick="openModal('상세 권한 확인', '윤태섭 이사의 보안 승인 등급은 LEVEL 5(최고 관리자)입니다.<br>인가되지 않은 자의 개인정보 및 신성인자 접근을 엄금합니다.')">
+                📋 상세 권한 지침 확인
+            </button>
+        </div>
+
+        <!-- 2. 극비사항 탭 -->
+        <div id="tab-secret" class="tab-content">
+            <div class="info-group">
+                <div class="info-title" style="color:#ef4444;">SECURITY CLEARANCE LEVEL 5 - RESTRICTED</div>
+                <div class="info-item"><div class="info-label">혼인 관계</div><div class="info-val">지수안 대표와 정략결혼 5년 차 (사랑 없는 관계, 혐관)</div></div>
+            </div>
+        </div>
+
+        <!-- 3. MAIN NPC 프로필 탭 -->
+        <div id="tab-npc" class="tab-content">
+            <div class="profile-card npc">
+                <img src="suan.png" alt="지수안 메인 사진" class="profile-avatar" onerror="this.src='https://via.placeholder.com/85x110/2a1a3a/a070d0?text=suan.png'">
+                <div class="profile-brief">
+                    <h2>지수안 <span style="font-size:0.85rem; color:#9ca3af;">(28)</span></h2>
+                    <div class="sub npc-sub">비너스(VENUS) 그룹 대표 (CEO)</div>
                 </div>
             </div>
         </div>
 
-        <!-- 버튼 영역 -->
-        <div class="btn-group">
-            <button class="btn-main" onclick="generateData()">인자 측정하기</button>
-            <button class="btn-copy" id="copy-btn" onclick="copyResult()">내용복사</button>
+        <!-- 4. 회사소개 탭 -->
+        <div id="tab-company" class="tab-content">
+            <div class="info-title">비너스(VENUS) 그룹 조직도</div>
+            <div class="dept-card core">
+                <span class="dept-floor">03F ~ 10F</span>
+                <div class="dept-name">기술개발총괄본부 (이사: 윤태섭)</div>
+            </div>
+        </div>
+
+        <!-- 5. 앨범 탭 -->
+        <div id="tab-album" class="tab-content">
+            <div class="info-title">윤태섭 이사 아카이브</div>
+        </div>
+
+        <!-- 6. 인자 진단 시스템 탭 (신규 연동) -->
+        <div id="tab-diagnosis" class="tab-content">
+            <div class="info-title" style="color: #10b981; border-bottom-color: #065f46;">신성인자 진단 & 과부하 측정</div>
+            <div style="background-color: #212127; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #2d2d35;">
+                <p style="margin-bottom: 15px; color: #a7f3d0;">사내 인자 케어센터 진단 시스템이 연결되었습니다.</p>
+                <iframe src="diagnosis.html" style="width: 100%; height: 350px; border: none; border-radius: 6px;"></iframe>
+                
+                <!-- 모달 호출 버튼 예시 -->
+                <button class="btn-primary" style="background-color: #059669;" onclick="openModal('진단 주의사항', '신성인자 임계치 초과 시 즉시 업무를 중단하고 10층 총괄실 또는 케어센터로 연락하십시오.')">
+                    ⚠️ 진단 수칙 읽기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 고정 탭 바 -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-profile', 'normal')">
+            <span>👤</span> 프로필
+        </button>
+        <button class="tab-btn secret-tab" onclick="switchTab(event, 'tab-secret', 'secret')">
+            <span>🔒</span> 극비사항
+        </button>
+        <button class="tab-btn npc-tab" onclick="switchTab(event, 'tab-npc', 'npc')">
+            <span>👑</span> NPC
+        </button>
+        <button class="tab-btn diag-tab" onclick="switchTab(event, 'tab-diagnosis', 'diagnosis')">
+            <span>🧪</span> 인자진단
+        </button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-company', 'normal')">
+            <span>🏢</span> 회사소개
+        </button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-album', 'normal')">
+            <span>🖼️</span> 앨범
+        </button>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 공통 모달 구조 (신규 추가) -->
+<!-- ========================================== -->
+<div id="customModal" class="modal-overlay">
+    <div class="modal-window">
+        <div class="modal-header">
+            <span id="modalTitle" class="modal-title">알림</span>
+            <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div id="modalBody" class="modal-body">
+            내용이 들어갑니다.
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal()">확인</button>
         </div>
     </div>
 </div>
-<!-- ==================== 모달 레이아웃 끝 ==================== -->
 
 <script>
-    /* 신성인자 데이터베이스 및 그룹 설정 */
-    const deityDB = {
-        "헤파이스토스 (Hephaestus)": {
-            identity: "올림포스 12주신 · 대장간과 불의 신",
-            good: "아프로디테", goodDesc: "체향을 통한 인자 과부하 정화",
-            bad: "아레스", badDesc: "파괴적 공명으로 인한 인자 붕괴"
-        },
-        "아테나 (Athena)": {
-            identity: "올림포스 12주신 · 전쟁과 지혜의 여신",
-            good: "헤파이스토스", goodDesc: "전략과 설계의 완벽한 결합",
-            bad: "포세이돈", badDesc: "감정 파동으로 인한 계산 오차"
-        },
-        "프로메테우스 (Prometheus)": {
-            identity: "티탄 신족 · 문명과 예지의 신",
-            good: "헤스티아", goodDesc: "안정적인 에너지 순환 및 보호",
-            bad: "제우스", badDesc: "강한 권능 압박에 의한 인자 과충전"
-        },
-        "헤르메스 (Hermes)": {
-            identity: "올림포스 12주신 · 전령과 여행자의 신",
-            good: "아폴론", goodDesc: "신호 가속 및 정보 전달 극대화",
-            bad: "하데스", badDesc: "음영 지대 진입 시 신호 차단"
-        },
-        "에코 (Echo)": {
-            identity: "오레아스 님프 · 산과 메아리의 정령",
-            good: "나르키소스", goodDesc: "안정적인 단방향 파동 수신",
-            bad: "헤라", badDesc: "신호 강제 봉인 및 언어 마비"
-        },
-        "시린크스 (Syrinx)": {
-            identity: "나이아스 님프 · 갈대와 음율의 정령",
-            good: "디오니소스", goodDesc: "감각적 음파 완화 및 리듬 공명",
-            bad: "판 (Pan)", badDesc: "집착적 파동으로 인한 공포 반응"
-        },
-        "아프로디테 (Aphrodite)": {
-            identity: "올림포스 12주신 · 미와 사랑의 여신",
-            good: "아도니스", goodDesc: "극상의 감각적 유희 및 도파민 증폭",
-            bad: "헤파이스토스", badDesc: "서늘한 무반응으로 인한 도파민 차단"
-        },
-        "디오니소스 (Dionysus)": {
-            identity: "올림포스 12주신 · 포도주와 광기의 신",
-            good: "아프로디테", goodDesc: "자율신경 이완 및 황홀경 유도",
-            bad: "아테나", badDesc: "이성적 이중 결계에 의한 감각 차단"
-        },
-        "에로스 (Eros)": {
-            identity: "사랑의 신 · 집착과 매혹의 전령",
-            good: "프시케", goodDesc: "완벽한 정서 교감 및 파동 안점",
-            bad: "아르테미스", badDesc: "거부 파동에 의한 인자 역류"
-        },
-        "프레이야 (Freyja)": {
-            identity: "북유럽 신족 · 사랑과 풍요의 여신",
-            good: "아스클레피오스", goodDesc: "신체적·정신적 완벽한 케어",
-            bad: "아레스", badDesc: "살기 파동으로 인한 안정막 붕괴"
-        },
-        "아스클레피오스 (Asclepius)": {
-            identity: "의술과 치유의 신",
-            good: "헤스티아", goodDesc: "과부하 바이오리듬 즉시 정상화",
-            bad: "하데스", badDesc: "생체 반응 강제 저하 및 침식"
-        },
-        "헤스티아 (Hestia)": {
-            identity: "올림포스 12주신 · 화로와 가정의 여신",
-            good: "프로메테우스", goodDesc: "지속적인 온기 제공 및 열기 정화",
-            bad: "포세이돈", badDesc: "냉기 침투로 인한 온기 차단"
-        },
-        "아레스 (Ares)": {
-            identity: "올림포스 12주신 · 광기와 전쟁의 신",
-            good: "아프로디테", goodDesc: "광기 파동을 피학적 쾌락으로 진정",
-            bad: "아테나", badDesc: "전술적 차단에 의한 자멸적 폭주"
-        },
-        "헤라클레스 (Heracles)": {
-            identity: "반신 대영웅 · 힘과 과업의 신",
-            good: "아스클레피오스", goodDesc: "근육 파괴 완화 및 즉시 복원",
-            bad: "헤라", badDesc: "신경계 강제 억압 및 출력 감소"
-        },
-        "아틀라스 (Atlas)": {
-            identity: "티탄 신족 · 하늘을 받치는 거인",
-            good: "데메테르", goodDesc: "대지 에너지 보충을 통한 내성 유지",
-            bad: "제우스", badDesc: "전자기 충격에 의한 하중 불균형"
-        },
-        "하데스 (Hades)": {
-            identity: "명계의 왕 · 어둠과 은폐의 신",
-            good: "페르세포네", goodDesc: "음영 영역 확장 및 정신적 안점",
-            bad: "헬리오스", badDesc: "강렬한 광원에 의한 은폐 즉시 해제"
-        },
-        "다프네 (Daphne)": {
-            identity: "드라이아스 님프 · 월계수와 도피의 정령",
-            good: "헤스티아", goodDesc: "정적 속 완벽한 안식처 제공",
-            bad: "아폴론", badDesc: "추적 추적 파동에 의한 위치 강제 노출"
-        },
-        "판 (Pan)": {
-            identity: "야생과 숲의 신 · 공포(Panic)의 정령",
-            good: "디오니소스", goodDesc: "본능적 감각 교란 및 유희 증폭",
-            bad: "아테나", badDesc: "냉정한 심리 분석으로 공포 무효화"
-        },
-        "아르테미스 (Artemis)": {
-            identity: "올림포스 12주신 · 달과 수렵의 여신",
-            good: "다프네", goodDesc: "야간 시야 및 원거리 정밀도 극대화",
-            bad: "아프로디테", badDesc: "매혹 페로몬으로 인한 시야 교란"
-        },
-        "헬리오스 (Helios)": {
-            identity: "태양의 신 · 빛의 집행자",
-            good: "아폴론", goodDesc: "광학 시각 파동의 완벽한 공명",
-            bad: "하데스", badDesc: "어둠에 의한 광학 정보 흡수"
-        },
-        "니케 (Nike)": {
-            identity: "승리의 여신",
-            good: "아테나", goodDesc: "승리 판정 속도 및 선택지 적중률 증가",
-            bad: "에리스", badDesc: "혼란 파동으로 인한 선택지 오차"
-        },
-        "데메테르 (Demeter)": {
-            identity: "올림포스 12주신 · 대지와 곡물의 여신",
-            good: "페르세포네", goodDesc: "생체 에너지를 통한 빠른 피로 회복",
-            bad: "하데스", badDesc: "생명력 억압 및 인자 가동 정지"
-        },
-        "페르세포네 (Persephone)": {
-            identity: "저승의 여왕 · 봄과 부활의 여신",
-            good: "데메테르", goodDesc: "과부하 강제 동면 및 신체 재활성",
-            bad: "아도니스", badDesc: "소유권 충돌로 인한 인자 과충전"
-        },
-        "테티스 (Thetis)": {
-            identity: "네레이스 님프 · 바다의 여신",
-            good: "포세이돈", goodDesc: "체온 수냉 조율 및 열기 즉시 차단",
-            bad: "헤파이스토스", badDesc: "고열 발생에 의한 수냉 능력 증발"
-        },
-        "제우스 (Zeus)": {
-            identity: "올림포스 최고신 · 뇌전과 권력의 신",
-            good: "헤라", goodDesc: "압도적 위계 파동 및 권위 증폭",
-            bad: "프로메테우스", badDesc: "권력 저항 파동으로 인한 전자기 방전"
-        },
-        "헤라 (Hera)": {
-            identity: "올림포스 여왕 · 혼인과 권력의 여신",
-            good: "제우스", goodDesc: "사내 조직 지배력 및 위계 확립",
-            bad: "에리스", badDesc: "불화 파동에 의한 위계 질서 균열"
-        },
-        "포세이돈 (Poseidon)": {
-            identity: "올림포스 12주신 · 바다와 지진의 신",
-            good: "테티스", goodDesc: "환경 파동 유기적 제어 및 안정",
-            bad: "엔케라두스", badDesc: "지진 파동으로 인한 해일 오작동"
-        },
-        "에리스 (Eris)": {
-            identity: "불화와 불화의 여신",
-            good: "판 (Pan)", goodDesc: "심리적 혼란 및 집단 오작동 극대화",
-            bad: "아테나", badDesc: "논리적 팩트에 의한 불화 파동 상쇄"
-        },
-        "헤카테 (Hekate)": {
-            identity: "기갈과 마술 · 교차로의 여신",
-            good: "모르페우스", goodDesc: "사각지대 감지 및 정신 침투",
-            bad: "헬리오스", badDesc: "직사 광선에 의한 은밀 마술 무효화"
-        },
-        "클리티에 (Clytie)": {
-            identity: "오케아니스 님프 · 해바라기 정령",
-            good: "아폴론", goodDesc: "대상 위치 추적 정확도 100% 달성",
-            bad: "다프네", badDesc: "은신 도피 파동으로 인한 추적 손실"
-        },
-        "아폴론 (Apollon)": {
-            identity: "올림포스 12주신 · 태양과 예지의 신",
-            good: "클리티에", goodDesc: "바이오리듬 스캔 및 예지 정확도 상승",
-            bad: "에코", badDesc: "음파 반사 파동으로 인한 스캔 교란"
-        }
-    };
+    /* 탭 전환 함수 */
+    function switchTab(evt, tabId, mode) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-    const groups = [
-        {
-            name: "기술·사물 제어계",
-            deities: ["헤파이스토스 (Hephaestus)", "아테나 (Athena)", "프로메테우스 (Prometheus)"],
-            abilities: [
-                "모든 기술 체계 및 사물 구조 정밀 통찰형 인자",
-                "초감각적 공간·구조 인지 및 정밀 제어형 인자",
-                "직관적 결함 감지 및 과부하 내성형 인자"
-            ],
-            features: [
-                "시스템이나 물건의 미세한 구조적 균열을 즉시 파악해 냄.",
-                "방대한 도면이나 데이터를 보는 즉시 입체적 청사진으로 재구성함.",
-                "남들이 보지 못하는 치명적 시스템 결함을 동물적으로 감지함."
-            ]
-        },
-        {
-            name: "신호·네트워크계",
-            deities: ["헤르메스 (Hermes)", "에코 (Echo)", "시린크스 (Syrinx)"],
-            abilities: [
-                "신체 신경 가속 및 파동·신호 감응형 인자",
-                "상대의 음성을 그대로 복사해 재현하는 음성형 인자",
-                "미세한 공기 흐름을 신체로 읽어내는 감응형 인자"
-            ],
-            features: [
-                "상대방의 미세한 두근거림이나 심장박동을 피부 감각으로 읽음.",
-                "들었던 소리나 데이터 파형을 그대로 기억하여 완벽히 재현함.",
-                "공기의 미세한 유동을 피부로 느껴 미세한 신호 전달 경로를 파악함."
-            ]
-        },
-        {
-            name: "페로몬·매혹계",
-            deities: ["아프로디테 (Aphrodite)", "디오니소스 (Dionysus)", "에로스 (Eros)"],
-            abilities: [
-                "타인 감각 지배 및 최상위 페로몬 유도형 인자",
-                "신경계 자율 자극 및 감각 증폭형 인자",
-                "특정 대상에게 감정적 애착을 유도하는 페로몬형 인자"
-            ],
-            features: [
-                "특유의 치명적인 체향으로 타인의 감정을 순간적으로 동요시킴.",
-                "타인의 감각을 마비시키거나 순간적으로 극도의 흥분 상태로 몰아넣음.",
-                "상대에게 정서적 안도감과 극도의 애착을 형성하게 만듦."
-            ]
-        },
-        {
-            name: "치유·안정계",
-            deities: ["프레이야 (Freyja)", "아스클레피오스 (Asclepius)", "헤스티아 (Hestia)"],
-            abilities: [
-                "감정 완화 페로몬 및 신체 온기 유도형 인자",
-                "신체 병목 및 이상 증상 즉각 진단형 인자",
-                "환경 체온 유지 및 신체 안정화형 인자"
-            ],
-            features: [
-                "특유의 온기와 체향으로 상대의 인자 과부하 상태를 유일하게 완화시킴.",
-                "상대방의 신체 이상이나 인자 오작동 원인을 즉시 진단해 냄.",
-                "차가운 환경에서도 자율 체온을 일정하게 유지하며 주위를 안정시킴."
-            ]
-        },
-        {
-            name: "전투·강화계",
-            deities: ["아레스 (Ares)", "헤라클레스 (Heracles)", "아틀라스 (Atlas)"],
-            abilities: [
-                "신체 아드레날린 및 근육 파괴 내성 극대화형 인자",
-                "신체 한계 수치 일시적 도핑형 인자",
-                "신체 고중량 압박 견딤 및 하중 분산형 인자"
-            ],
-            features: [
-                "위기 상황일수록 고통을 잊고 폭발적인 피지컬을 발휘함.",
-                "순간적인 신체 오버클럭을 통해 한계를 뛰어넘는 힘을 냄.",
-                "상당한 신체적 과부하와 물리적 압박에도 동요 없이 견뎌냄."
-            ]
-        },
-        {
-            name: "은밀·감각 회피계",
-            deities: ["하데스 (Hades)", "다프네 (Daphne)", "판 (Pan)"],
-            abilities: [
-                "신체 은폐 및 시각 인식 차단형 인자",
-                "타인의 시선을 신체적으로 회피하는 본능형 인자",
-                "초음파 및 미세 음파 감지형 인자"
-            ],
-            features: [
-                "자신의 존재감을 순간적으로 지워 무의식적 시선 추적을 피함.",
-                "자신에게 쏠리는 타인의 위압적 시선을 자연스럽게 튕겨냄.",
-                "미세한 소리나 진동의 원인지를 직관적으로 찾아냄."
-            ]
-        },
-        {
-            name: "원거리·동체시력계",
-            deities: ["아르테미스 (Artemis)", "헬리오스 (Helios)", "니케 (Nike)"],
-            abilities: [
-                "동체시력 및 원거리 신체 직관 강화형 인자",
-                "시야 내 빛을 흡수 및 반사하는 광학 감각형 인자",
-                "승패의 기류를 감지하는 순발력 강화형 인자"
-            ],
-            features: [
-                "어두운 곳이나 복잡한 구조 속에서도 정밀한 목표물을 타격함.",
-                "주변 시각 데이터를 극대화하여 미세한 미동도 놓치지 않음.",
-                "경쟁 상황에서 승리 가능성이 가장 높은 선택지를 직관적으로 파악함."
-            ]
-        },
-        {
-            name: "생체·유기 활성화계",
-            deities: ["데메테르 (Demeter)", "페르세포네 (Persephone)", "테티스 (Thetis)"],
-            abilities: [
-                "생체 에너지를 통한 유기물 활성화형 인자",
-                "동면·치유 주기를 유도하는 신체 조율형 인자",
-                "체온 동결 및 피부 내구성 강화형 인자"
-            ],
-            features: [
-                "식물이나 세포 생체 에너지를 미세하게 촉진시킬 수 있음.",
-                "상대의 극심한 인자 과부하 상태를 일시적으로 동면시키듯 가라앉힘.",
-                "마찰열이나 과부하 열기를 순식간에 차갑게 식혀버림."
-            ]
-        },
-        {
-            name: "위계·통합 지배계",
-            deities: ["제우스 (Zeus)", "헤라 (Hera)", "포세이돈 (Poseidon)"],
-            abilities: [
-                "전자기파 직관 및 신체 반응 가속형 인자",
-                "타인의 계급·지배 구조 인지 및 권위 부여형 인자",
-                "유체 흐름 및 환경 파동 감응형 인자"
-            ],
-            features: [
-                "찰나의 순간에 고전압 전자기파와 유사한 반응 속도를 끌어올림.",
-                "사내의 미세한 위계 질서와 조직 구조를 직관적으로 파악함.",
-                "주변 환경의 기압이나 수분 변화를 피부 감각으로 감지함."
-            ]
-        },
-        {
-            name: "심리 교란·추적계",
-            deities: ["에리스 (Eris)", "헤카테 (Hekate)", "클리티에 (Clytie)", "아폴론 (Apollon)"],
-            abilities: [
-                "상대의 심리적 불안을 유도하는 감각 교란형 인자",
-                "미세한 사각지대를 감지하는 감각 확장형 인자",
-                "특정 대상의 위치를 시각적으로 감지하는 추적형 인자",
-                "생체 바이오리듬 시각화 및 정교한 예지형 인자"
-            ],
-            features: [
-                "집단 내의 미세한 불화나 논리적 허점을 재빠르게 포착함.",
-                "직관적으로 시스템의 숨겨진 백도어나 오류 위치를 찾아냄.",
-                "특정 대상의 이동 경로나 신체 잔향을 끊임없이 추적함.",
-                "상대의 미세한 체온 및 맥박 변화를 눈으로 스캔하듯 읽어냄."
-            ]
-        }
-    ];
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
 
-    /* 모달 오픈/클로즈 제어 함수 */
-    function openModal() {
-        document.getElementById('diagnosisModal').classList.add('active');
-        document.body.style.overflow = 'hidden'; // 모달 열림 시 배경 스크롤 방지
+        const badge = document.getElementById('badge');
+        if (mode === 'secret') {
+            badge.innerText = 'TOP SECRET CLEARANCE';
+            badge.style.backgroundColor = '#7f1d1d';
+            badge.style.color = '#fca5a5';
+        } else if (mode === 'npc') {
+            badge.innerText = 'EXECUTIVE VIP ACCESS';
+            badge.style.backgroundColor = '#4c1d95';
+            badge.style.color = '#e9d5ff';
+        } else if (mode === 'diagnosis') {
+            badge.innerText = 'MEDICAL DIAGNOSIS ACCESS';
+            badge.style.backgroundColor = '#065f46';
+            badge.style.color = '#a7f3d0';
+        } else {
+            badge.innerText = 'INSPECTION CLEARANCE';
+            badge.style.backgroundColor = '#374151';
+            badge.style.color = '#9ca3af';
+        }
+    }
+
+    /* ========================================== */
+    /* 모달 제어 함수 (신규 추가) */
+    /* ========================================== */
+    function openModal(title, content) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalBody').innerHTML = content;
+        document.getElementById('customModal').classList.add('active');
     }
 
     function closeModal() {
-        document.getElementById('diagnosisModal').classList.remove('active');
-        document.body.style.overflow = ''; // 스크롤 원복
+        document.getElementById('customModal').classList.remove('active');
     }
 
-    // 모달 바깥 어두운 배경 클릭 시 닫기
-    function handleOverlayClick(event) {
-        if (event.target === document.getElementById('diagnosisModal')) {
+    // 모달 배경 클릭 시 닫기
+    document.getElementById('customModal').addEventListener('click', function(e) {
+        if (e.target === this) {
             closeModal();
         }
-    }
-
-    /* 진단 기능 실행 */
-    function generateData() {
-        const selectedGroup = groups[Math.floor(Math.random() * groups.length)];
-
-        const randDeity = selectedGroup.deities[Math.floor(Math.random() * selectedGroup.deities.length)];
-        const randAbility = selectedGroup.abilities[Math.floor(Math.random() * selectedGroup.abilities.length)];
-        const randFeature = selectedGroup.features[Math.floor(Math.random() * selectedGroup.features.length)];
-
-        const deityDetail = deityDB[randDeity] || {
-            identity: "신성 인자 보유자",
-            good: "비너스 계통", goodDesc: "과부하 완화",
-            bad: "충돌 계통", badDesc: "파동 오작동"
-        };
-
-        document.getElementById('deity').innerText = randDeity;
-        document.getElementById('identity').innerText = deityDetail.identity;
-        document.getElementById('ability').innerText = randAbility;
-        document.getElementById('feature').innerText = randFeature;
-
-        document.getElementById('good-target').innerText = deityDetail.good;
-        document.getElementById('good-desc').innerText = deityDetail.goodDesc;
-        document.getElementById('bad-target').innerText = deityDetail.bad;
-        document.getElementById('bad-desc').innerText = deityDetail.badDesc;
-
-        const tagElem = document.getElementById('group-tag');
-        tagElem.innerText = selectedGroup.name;
-        tagElem.style.display = 'inline-block';
-
-        document.getElementById('affinity-box').style.display = 'block';
-    }
-
-    /* 클립보드 복사 기능 */
-    function copyResult() {
-        const deity = document.getElementById('deity').innerText;
-        
-        if (deity === "버튼을 눌러 진단하세요") {
-            alert("먼저 인자를 진단해 주세요!");
-            return;
-        }
-
-        const groupTag = document.getElementById('group-tag').innerText;
-        const identity = document.getElementById('identity').innerText;
-        const ability = document.getElementById('ability').innerText;
-        const feature = document.getElementById('feature').innerText;
-        const goodTarget = document.getElementById('good-target').innerText;
-        const goodDesc = document.getElementById('good-desc').innerText;
-        const badTarget = document.getElementById('bad-target').innerText;
-        const badDesc = document.getElementById('bad-desc').innerText;
-
-        const textToCopy = `[비너스 그룹 신성인자 진단 결과]
-- 신성인자: ${deity} (${groupTag})
-- 정체성: ${identity}
-- 인자 능력: ${ability}
-- 주요 특징: ${feature}
-
-[상성 리포트]
-- 상성 우수(Good): ${goodTarget} (${goodDesc})
-- 상성 충돌(Bad): ${badTarget} (${badDesc})`;
-
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            const copyBtn = document.getElementById('copy-btn');
-            copyBtn.innerText = "복사 완료!";
-            setTimeout(() => {
-                copyBtn.innerText = "내용복사";
-            }, 2000);
-        }).catch(err => {
-            alert("복사 실패: " + err);
-        });
-    }
+    });
 </script>
 
 </body>
